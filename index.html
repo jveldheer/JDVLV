@@ -1,0 +1,1900 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>Josh's D1 Tackle Tracker - VLVL Performance</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&display=swap');
+  
+  :root { 
+    --black: #1A1A1A;
+    --yellow: #F5C842;
+    --gold: #FFD700;
+    --white: #FFFFFF;
+    --gray: #B0B0B0;
+    --dark-gray: #2A2A2A;
+    --border: #3A3A3A;
+    --green: #4CAF50;
+    --red: #FF5722;
+    --blue: #4A90E2;
+    --shadow: rgba(0,0,0,0.5);
+    --glow: rgba(245, 200, 66, 0.5);
+    --orange: #FF9800;
+  }
+  
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--black);
+    color: var(--white);
+    line-height: 1.6;
+    overflow-x: hidden;
+    min-height: 100vh;
+  }
+  
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+      radial-gradient(circle at 20% 50%, rgba(245, 200, 66, 0.03) 0%, transparent 50%),
+      radial-gradient(circle at 80% 50%, rgba(245, 200, 66, 0.03) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 1;
+  }
+  
+  /* Header */
+  header {
+    background: linear-gradient(135deg, var(--dark-gray) 0%, #1f1f1f 100%);
+    padding: 15px 20px;
+    border-bottom: 3px solid var(--yellow);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 10px 30px var(--shadow);
+  }
+  
+  .header-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+  }
+  
+  .logo-wrapper {
+    flex-shrink: 0;
+  }
+  
+  .logo-wrapper img {
+    width: 150px;
+    height: auto;
+    display: block;
+    border-radius: 8px;
+    filter: drop-shadow(0 0 25px var(--yellow)) brightness(1.15);
+    animation: logoGlow 3s ease-in-out infinite alternate;
+  }
+  
+  @keyframes logoGlow {
+    0% {
+      filter: drop-shadow(0 0 20px var(--yellow)) brightness(1.1);
+    }
+    100% {
+      filter: drop-shadow(0 0 40px var(--gold)) drop-shadow(0 0 60px var(--yellow)) brightness(1.25);
+    }
+  }
+  
+  .header-center {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+  }
+  
+  .streak-display {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(255, 152, 0, 0.1);
+    padding: 6px 15px;
+    border-radius: 20px;
+    border: 2px solid var(--orange);
+  }
+  
+  .streak-fire {
+    font-size: 1.3em;
+    animation: fireGrow 2s ease-in-out infinite;
+  }
+  
+  @keyframes fireGrow {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+  }
+  
+  .streak-count {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.1em;
+    color: var(--orange);
+    white-space: nowrap;
+  }
+  
+  .athlete-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.3em;
+    color: var(--white);
+    letter-spacing: 1px;
+    white-space: nowrap;
+  }
+  
+  /* Navigation */
+  nav {
+    background: rgba(42, 42, 42, 0.98);
+    padding: 15px 20px;
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 80px;
+    z-index: 999;
+    backdrop-filter: blur(10px);
+  }
+  
+  .nav-wrapper {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    padding-bottom: 5px;
+  }
+  
+  .nav-btn {
+    font-family: 'Bebas Neue', sans-serif;
+    background: var(--dark-gray);
+    color: var(--gray);
+    border: 2px solid var(--border);
+    padding: 12px 28px;
+    border-radius: 8px;
+    font-size: 1.15em;
+    letter-spacing: 1.5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+  }
+  
+  .nav-btn:hover {
+    background: rgba(245, 200, 66, 0.15);
+    border-color: var(--yellow);
+    color: var(--white);
+    transform: translateY(-2px);
+  }
+  
+  .nav-btn.active {
+    background: var(--yellow);
+    color: var(--black);
+    border-color: var(--yellow);
+    font-weight: bold;
+    box-shadow: 0 0 20px var(--glow);
+  }
+  
+  /* Main Content */
+  main {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    position: relative;
+    z-index: 2;
+  }
+  
+  .tab-content {
+    display: none;
+    animation: fadeIn 0.5s ease;
+  }
+  
+  .tab-content.active {
+    display: block;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  /* Cards */
+  .card {
+    background: linear-gradient(135deg, var(--dark-gray) 0%, #222 100%);
+    border: 1px solid var(--border);
+    border-radius: 15px;
+    padding: 30px;
+    margin-bottom: 30px;
+    position: relative;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+  }
+  
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, var(--yellow), transparent);
+    border-radius: 15px 15px 0 0;
+  }
+  
+  .card-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.2em;
+    color: var(--yellow);
+    margin-bottom: 25px;
+    letter-spacing: 2px;
+    text-shadow: 0 0 20px var(--glow);
+  }
+  
+  /* Level Progress System */
+  .level-system {
+    background: linear-gradient(135deg, rgba(245, 200, 66, 0.2) 0%, rgba(255, 215, 0, 0.1) 100%);
+    border: 2px solid var(--yellow);
+    border-radius: 15px;
+    padding: 25px;
+    margin-bottom: 30px;
+    text-align: center;
+  }
+  
+  .current-level {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.5em;
+    color: var(--yellow);
+    letter-spacing: 2px;
+    text-shadow: 0 0 25px var(--glow);
+    margin-bottom: 15px;
+  }
+  
+  .level-progress-bar {
+    width: 100%;
+    height: 30px;
+    background: rgba(0,0,0,0.5);
+    border-radius: 15px;
+    overflow: hidden;
+    position: relative;
+  }
+  
+  .level-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--yellow), var(--gold));
+    border-radius: 15px;
+    transition: width 1s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--black);
+    font-weight: bold;
+  }
+  
+  .level-badges {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  
+  .badge {
+    padding: 8px 15px;
+    background: rgba(0,0,0,0.5);
+    border: 2px solid var(--border);
+    border-radius: 20px;
+    font-size: 0.9em;
+    transition: all 0.3s ease;
+  }
+  
+  .badge.earned {
+    background: var(--gold);
+    color: var(--black);
+    border-color: var(--gold);
+    animation: badgeEarn 0.5s ease;
+  }
+  
+  @keyframes badgeEarn {
+    0% { transform: scale(0); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+  }
+  
+  /* Identity Card */
+  .identity-card {
+    background: linear-gradient(135deg, rgba(245, 200, 66, 0.15) 0%, rgba(255, 215, 0, 0.08) 100%);
+    border: 2px solid var(--yellow);
+    border-radius: 15px;
+    padding: 25px;
+    margin-bottom: 30px;
+    text-align: center;
+    box-shadow: 0 0 30px rgba(245, 200, 66, 0.2);
+  }
+  
+  .identity-text {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.5em;
+    color: var(--yellow);
+    letter-spacing: 2px;
+    text-shadow: 0 0 25px var(--glow);
+  }
+  
+  /* Scoreboard Grid */
+  .scoreboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+  }
+  
+  .score-item {
+    background: rgba(0,0,0,0.4);
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .score-item::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    transform: rotate(45deg);
+    transition: all 0.5s;
+    opacity: 0;
+  }
+  
+  .score-item:hover {
+    border-color: var(--yellow);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(245, 200, 66, 0.2);
+  }
+  
+  .score-item:hover::after {
+    opacity: 1;
+    animation: shimmer 0.5s ease;
+  }
+  
+  @keyframes shimmer {
+    0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+    100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+  }
+  
+  .score-item.completed {
+    background: rgba(76, 175, 80, 0.2);
+    border-color: var(--green);
+    animation: successPulse 0.5s ease;
+  }
+  
+  .score-value {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.5em;
+    color: var(--yellow);
+    text-shadow: 0 0 15px var(--glow);
+    margin-bottom: 5px;
+  }
+  
+  .score-label {
+    color: var(--gray);
+    font-size: 1em;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  
+  .score-target {
+    color: var(--white);
+    font-size: 0.9em;
+    margin-top: 10px;
+  }
+  
+  /* Lightning Effect for Goals */
+  .lightning-effect {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    opacity: 0;
+  }
+  
+  .lightning-effect.active {
+    animation: lightning 0.5s ease;
+  }
+  
+  @keyframes lightning {
+    0%, 100% { opacity: 0; }
+    50% { 
+      opacity: 1;
+      background: radial-gradient(circle at center, rgba(255, 255, 255, 0.8), transparent);
+    }
+  }
+  
+  /* Movement Reminder */
+  .movement-reminder {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: var(--orange);
+    color: var(--black);
+    padding: 15px 25px;
+    border-radius: 30px;
+    box-shadow: 0 5px 20px rgba(255, 152, 0, 0.5);
+    display: none;
+    z-index: 1001;
+    animation: slideIn 0.5s ease;
+    cursor: pointer;
+  }
+  
+  .movement-reminder.active {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  @keyframes slideIn {
+    from { transform: translateX(400px); }
+    to { transform: translateX(0); }
+  }
+  
+  .movement-icon {
+    font-size: 1.5em;
+    animation: bounce 1s ease infinite;
+  }
+  
+  @keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+  
+  /* Input Section */
+  .input-section {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin: 15px 0;
+    flex-wrap: wrap;
+  }
+  
+  .input-label {
+    color: var(--white);
+    font-weight: 600;
+    min-width: 150px;
+  }
+  
+  .input-field {
+    background: var(--black);
+    border: 2px solid var(--yellow);
+    color: var(--white);
+    padding: 10px 15px;
+    border-radius: 8px;
+    font-family: 'Inter', sans-serif;
+    font-size: 1em;
+    flex: 1;
+    min-width: 200px;
+  }
+  
+  .input-field:focus {
+    outline: none;
+    box-shadow: 0 0 15px var(--glow);
+    background: #1f1f1f;
+  }
+  
+  .btn-primary {
+    background: var(--yellow);
+    color: var(--black);
+    border: none;
+    padding: 12px 30px;
+    border-radius: 8px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.2em;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .btn-primary:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 25px var(--glow);
+  }
+  
+  .btn-secondary {
+    background: var(--dark-gray);
+    color: var(--white);
+    border: 2px solid var(--border);
+    padding: 10px 25px;
+    border-radius: 8px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.1em;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .btn-secondary:hover {
+    background: var(--border);
+    border-color: var(--yellow);
+  }
+  
+  /* Checkbox Group */
+  .checkbox-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin: 20px 0;
+  }
+  
+  .checkbox-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    padding: 8px 15px;
+    background: rgba(0,0,0,0.3);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    transition: all 0.3s ease;
+  }
+  
+  .checkbox-item:hover {
+    border-color: var(--yellow);
+    background: rgba(245, 200, 66, 0.1);
+  }
+  
+  .checkbox-item input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    accent-color: var(--yellow);
+  }
+  
+  .checkbox-item label {
+    cursor: pointer;
+    color: var(--white);
+  }
+  
+  /* Milestone Badges */
+  .milestone-badge {
+    background: rgba(0,0,0,0.5);
+    border: 2px solid var(--border);
+    border-radius: 20px;
+    padding: 8px 12px;
+    text-align: center;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.1em;
+    color: var(--gray);
+    transition: all 0.3s ease;
+  }
+  
+  .milestone-badge.achieved {
+    background: linear-gradient(135deg, var(--green), #45a049);
+    border-color: var(--green);
+    color: var(--white);
+    box-shadow: 0 0 20px rgba(76, 175, 80, 0.5);
+    animation: milestoneUnlock 0.5s ease;
+  }
+  
+  .milestone-badge.next {
+    border-color: var(--yellow);
+    background: rgba(245, 200, 66, 0.1);
+    color: var(--yellow);
+    animation: pulse 2s ease-in-out infinite;
+  }
+  
+  @keyframes milestoneUnlock {
+    0% { transform: scale(0) rotate(0deg); }
+    50% { transform: scale(1.2) rotate(180deg); }
+    100% { transform: scale(1) rotate(360deg); }
+  }
+  
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+  }
+  
+  /* Food Categories */
+  .food-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    margin: 20px 0;
+  }
+  
+  .food-category {
+    padding: 20px;
+    border-radius: 12px;
+    border: 2px solid;
+  }
+  
+  .food-category.green {
+    background: rgba(76, 175, 80, 0.1);
+    border-color: var(--green);
+  }
+  
+  .food-category.yellow {
+    background: rgba(245, 200, 66, 0.1);
+    border-color: var(--yellow);
+  }
+  
+  .food-category.red {
+    background: rgba(255, 87, 34, 0.1);
+    border-color: var(--red);
+  }
+  
+  .food-category h3 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.8em;
+    margin-bottom: 15px;
+    letter-spacing: 1px;
+  }
+  
+  .food-category.green h3 { color: var(--green); }
+  .food-category.yellow h3 { color: var(--yellow); }
+  .food-category.red h3 { color: var(--red); }
+  
+  .food-list {
+    list-style: none;
+    color: var(--white);
+  }
+  
+  .food-list li {
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
+  
+  /* Warning Modal */
+  .warning-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--dark-gray);
+    border: 3px solid var(--red);
+    border-radius: 15px;
+    padding: 30px;
+    z-index: 2000;
+    max-width: 400px;
+    display: none;
+    box-shadow: 0 0 50px rgba(255, 87, 34, 0.5);
+  }
+  
+  .warning-modal.active {
+    display: block;
+    animation: warningShake 0.5s ease;
+  }
+  
+  @keyframes warningShake {
+    0%, 100% { transform: translate(-50%, -50%) rotate(0); }
+    25% { transform: translate(-50%, -50%) rotate(-2deg); }
+    75% { transform: translate(-50%, -50%) rotate(2deg); }
+  }
+  
+  .warning-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2em;
+    color: var(--red);
+    text-align: center;
+    margin-bottom: 15px;
+  }
+  
+  .warning-content {
+    color: var(--white);
+    text-align: center;
+    line-height: 1.6;
+    margin-bottom: 20px;
+  }
+  
+  .warning-close {
+    background: var(--red);
+    color: var(--white);
+    border: none;
+    padding: 10px 25px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.1em;
+    width: 100%;
+  }
+  
+  /* Social Scripts */
+  .script-card {
+    background: rgba(74, 144, 226, 0.1);
+    border: 2px solid var(--blue);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .script-card:hover {
+    background: rgba(74, 144, 226, 0.2);
+    transform: translateX(5px);
+  }
+  
+  .script-situation {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.5em;
+    color: var(--blue);
+    margin-bottom: 10px;
+  }
+  
+  .script-response {
+    color: var(--white);
+    font-style: italic;
+    margin: 10px 0;
+    padding: 10px;
+    background: rgba(0,0,0,0.3);
+    border-left: 3px solid var(--yellow);
+    border-radius: 5px;
+  }
+  
+  .script-action {
+    color: var(--green);
+    font-weight: bold;
+  }
+  
+  /* History Log */
+  .history-log {
+    background: rgba(0,0,0,0.3);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    max-height: 400px;
+    overflow-y: auto;
+  }
+  
+  .log-entry {
+    padding: 12px;
+    margin-bottom: 10px;
+    background: rgba(255,255,255,0.05);
+    border-left: 3px solid var(--yellow);
+    border-radius: 5px;
+  }
+  
+  .log-date {
+    color: var(--yellow);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.2em;
+    margin-bottom: 5px;
+  }
+  
+  .log-details {
+    color: var(--white);
+    font-size: 0.95em;
+    line-height: 1.5;
+  }
+  
+  /* Success Animation */
+  @keyframes successPulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+  }
+  
+  .success {
+    animation: successPulse 0.5s ease;
+    border-color: var(--green) !important;
+    background: rgba(76, 175, 80, 0.2) !important;
+  }
+  
+  /* Level Up Animation */
+  .level-up-animation {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 5em;
+    color: var(--gold);
+    text-shadow: 0 0 50px var(--glow);
+    z-index: 3000;
+    display: none;
+  }
+  
+  .level-up-animation.active {
+    display: block;
+    animation: levelUp 2s ease;
+  }
+  
+  @keyframes levelUp {
+    0% { 
+      transform: translate(-50%, -50%) scale(0) rotate(0deg);
+      opacity: 0;
+    }
+    50% { 
+      transform: translate(-50%, -50%) scale(1.5) rotate(360deg);
+      opacity: 1;
+    }
+    100% { 
+      transform: translate(-50%, -50%) scale(1) rotate(720deg);
+      opacity: 0;
+    }
+  }
+  
+  /* Mobile Responsive */
+  @media (max-width: 768px) {
+    .header-content {
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
+    }
+    
+    .logo-wrapper img {
+      width: 120px;
+    }
+    
+    .header-center {
+      flex-direction: column;
+      gap: 10px;
+      width: 100%;
+      align-items: center;
+    }
+    
+    .streak-display {
+      order: 2;
+    }
+    
+    .athlete-name {
+      order: 1;
+      font-size: 1.2em;
+    }
+    
+    .current-level {
+      font-size: 1.8em;
+    }
+    
+    .scoreboard-grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .food-grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .input-section {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    
+    .input-label {
+      min-width: auto;
+    }
+    
+    .movement-reminder {
+      bottom: 10px;
+      right: 10px;
+      left: 10px;
+      justify-content: center;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<header>
+  <div class="header-content">
+    <div class="logo-wrapper">
+      <img src="vlvl16x9.png" alt="VLVL Performance">
+    </div>
+    <div class="header-center">
+      <div class="streak-display">
+        <span class="streak-fire" id="streakFire">🔥</span>
+        <span class="streak-count" id="streakCount">0 DAY STREAK</span>
+      </div>
+      <div class="athlete-name">JOSH'S D1 TRACKER</div>
+    </div>
+  </div>
+</header>
+
+<!-- Navigation -->
+<nav>
+  <div class="nav-wrapper">
+    <button class="nav-btn active" onclick="showTab('dashboard')">DASHBOARD</button>
+    <button class="nav-btn" onclick="showTab('daily')">DAILY CHECK-IN</button>
+    <button class="nav-btn" onclick="showTab('nutrition')">NUTRITION</button>
+    <button class="nav-btn" onclick="showTab('social')">SOCIAL SCRIPTS</button>
+    <button class="nav-btn" onclick="showTab('progress')">PROGRESS</button>
+  </div>
+</nav>
+
+<!-- Movement Reminder Popup -->
+<div class="movement-reminder" id="movementReminder" onclick="dismissMovementReminder()">
+  <span class="movement-icon">🚶</span>
+  <span>Time to move! Stand up and stretch for 2 minutes</span>
+</div>
+
+<!-- Warning Modal -->
+<div class="warning-modal" id="warningModal">
+  <div class="warning-title">⚠️ INSULIN SPIKE WARNING</div>
+  <div class="warning-content" id="warningContent"></div>
+  <button class="warning-close" onclick="closeWarning()">I UNDERSTAND</button>
+</div>
+
+<!-- Level Up Animation -->
+<div class="level-up-animation" id="levelUpAnimation">LEVEL UP!</div>
+
+<!-- Main Content -->
+<main>
+
+  <!-- Dashboard Tab -->
+  <div class="tab-content active" id="dashboard">
+    <!-- Level System -->
+    <div class="level-system">
+      <div class="current-level" id="currentLevel">ROOKIE</div>
+      <div class="level-progress-bar">
+        <div class="level-progress-fill" id="levelProgress" style="width: 25%">
+          <span id="progressPercent">25%</span>
+        </div>
+      </div>
+      <div class="level-badges">
+        <div class="badge" id="badge-rookie">ROOKIE</div>
+        <div class="badge" id="badge-starter">STARTER</div>
+        <div class="badge" id="badge-allconf">ALL-CONFERENCE</div>
+        <div class="badge" id="badge-d1">D1 READY</div>
+      </div>
+    </div>
+    
+    <div class="identity-card">
+      <div class="identity-text">BEHAVE LIKE A D1 TACKLE NOW</div>
+    </div>
+    
+    <div class="card">
+      <h2 class="card-title">WEEKLY SCOREBOARD</h2>
+      <div class="scoreboard-grid">
+        <div class="score-item" id="finish-score" onclick="celebrateGoal('finish')">
+          <div class="lightning-effect" id="lightning-finish"></div>
+          <div class="score-value" id="finish-value">0%</div>
+          <div class="score-label">Finish %</div>
+          <div class="score-target">Target: ≥90%</div>
+        </div>
+        <div class="score-item" id="footwork-score" onclick="celebrateGoal('footwork')">
+          <div class="lightning-effect" id="lightning-footwork"></div>
+          <div class="score-value" id="footwork-value">0/5</div>
+          <div class="score-label">Footwork Sessions</div>
+          <div class="score-target">Target: 5/5 this week</div>
+        </div>
+        <div class="score-item" id="nutrition-score" onclick="celebrateGoal('nutrition')">
+          <div class="lightning-effect" id="lightning-nutrition"></div>
+          <div class="score-value" id="nutrition-value">0/7</div>
+          <div class="score-label">Clean Days</div>
+          <div class="score-target">Target: 6/7 clean days</div>
+        </div>
+        <div class="score-item" id="waist-score">
+          <div class="score-value" id="waist-value">--</div>
+          <div class="score-label">Waist Trend</div>
+          <div class="score-target">Target: -0.5"/2wk</div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="card">
+      <h2 class="card-title">TODAY'S CHECKLIST</h2>
+      <div class="checkbox-group">
+        <div class="checkbox-item">
+          <input type="checkbox" id="morning-mobility" onchange="updateChecklist()">
+          <label for="morning-mobility">Morning Mobility (10 min)</label>
+        </div>
+        <div class="checkbox-item">
+          <input type="checkbox" id="footwork-session" onchange="updateChecklist()">
+          <label for="footwork-session">Footwork Session (10 min)</label>
+        </div>
+        <div class="checkbox-item">
+          <input type="checkbox" id="protein-meals" onchange="updateChecklist()">
+          <label for="protein-meals">Protein at Every Meal</label>
+        </div>
+        <div class="checkbox-item">
+          <input type="checkbox" id="no-liquid-sugar" onchange="updateChecklist()">
+          <label for="no-liquid-sugar">No Liquid Sugar</label>
+        </div>
+        <div class="checkbox-item">
+          <input type="checkbox" id="finish-practice" onchange="updateChecklist()">
+          <label for="finish-practice">Finished Plays at Practice</label>
+        </div>
+        <div class="checkbox-item">
+          <input type="checkbox" id="movement-breaks" onchange="updateChecklist()">
+          <label for="movement-breaks">Movement Breaks Every Hour</label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Daily Check-in Tab -->
+  <div class="tab-content" id="daily">
+    <div class="card">
+      <h2 class="card-title">DAILY CHECK-IN</h2>
+      
+      <div class="input-section">
+        <label class="input-label">Morning Weight (lbs):</label>
+        <input type="number" class="input-field" id="daily-weight" placeholder="Enter weight" step="0.5">
+      </div>
+      
+      <div class="input-section">
+        <label class="input-label">Waist at Navel (inches):</label>
+        <input type="number" class="input-field" id="daily-waist" placeholder="Enter measurement" step="0.25">
+      </div>
+      
+      <div class="input-section">
+        <label class="input-label">Finish % at Practice:</label>
+        <input type="number" class="input-field" id="daily-finish" placeholder="Enter percentage" min="0" max="100">
+      </div>
+      
+      <div class="input-section">
+        <label class="input-label">Sleep Hours:</label>
+        <input type="number" class="input-field" id="daily-sleep" placeholder="Hours slept" step="0.5" min="0" max="24">
+      </div>
+      
+      <div class="input-section">
+        <label class="input-label">Energy Level (1-10):</label>
+        <input type="number" class="input-field" id="daily-energy" placeholder="1-10" min="1" max="10">
+      </div>
+      
+      <div style="margin-top: 20px;">
+        <button class="btn-primary" onclick="saveDailyCheckin()">SAVE CHECK-IN</button>
+      </div>
+    </div>
+    
+    <div class="card">
+      <h2 class="card-title">RECENT CHECK-INS</h2>
+      <div class="history-log" id="checkin-history">
+        <!-- Dynamic content will be added here -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Nutrition Tab -->
+  <div class="tab-content" id="nutrition">
+    <div class="card">
+      <h2 class="card-title">FOOD CATEGORIES</h2>
+      
+      <div class="food-grid">
+        <div class="food-category green">
+          <h3>GREEN (BASE OF EVERY PLATE)</h3>
+          <ul class="food-list">
+            <li>Eggs/omelet bar, grilled chicken/turkey</li>
+            <li>Lean beef/pork, fish, Greek yogurt</li>
+            <li>All vegetables, salads</li>
+            <li>Oats, brown rice, quinoa</li>
+            <li>Beans, lentils, potatoes (skin on)</li>
+            <li>Whole fruit, avocado, nuts/seeds</li>
+          </ul>
+        </div>
+        
+        <div class="food-category yellow">
+          <h3>YELLOW (TIMING MATTERS)</h3>
+          <ul class="food-list">
+            <li>Sports drinks - only during/after >60-90 min sessions</li>
+            <li>Chocolate milk - post-workout only</li>
+            <li>Starch portions: 1-2 fists near training</li>
+            <li>0-1 fist at other meals</li>
+          </ul>
+        </div>
+        
+        <div class="food-category red">
+          <h3>RED (OFF-LIMITS)</h3>
+          <ul class="food-list">
+            <li>Soda, energy drinks, sweet tea, juice</li>
+            <li>Desserts/candy on school nights</li>
+            <li>Fried/breaded entrées</li>
+            <li>Pizza >1×/week</li>
+            <li>Chips, white bread</li>
+            <li>Sugary coffee drinks</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    
+    <div class="card">
+      <h2 class="card-title">MEAL PLANNER</h2>
+      
+      <div class="input-section">
+        <label class="input-label">Meal Time:</label>
+        <select class="input-field" id="meal-time">
+          <option value="breakfast">Breakfast</option>
+          <option value="lunch">Lunch</option>
+          <option value="dinner">Dinner</option>
+          <option value="snack">Snack</option>
+        </select>
+      </div>
+      
+      <div class="input-section">
+        <label class="input-label">What I Ate:</label>
+        <input type="text" class="input-field" id="meal-content" placeholder="e.g., 4 eggs + oats + greek yogurt">
+      </div>
+      
+      <div class="input-section">
+        <label class="input-label">Category:</label>
+        <select class="input-field" id="meal-category" onchange="checkFoodCategory()">
+          <option value="green">Green - Clean</option>
+          <option value="yellow">Yellow - Timed</option>
+          <option value="red">Red - Off Plan</option>
+        </select>
+      </div>
+      
+      <button class="btn-primary" onclick="logMeal()">LOG MEAL</button>
+    </div>
+  </div>
+
+  <!-- Social Scripts Tab -->
+  <div class="tab-content" id="social">
+    <div class="card">
+      <h2 class="card-title">SOCIAL SURVIVAL SCRIPTS</h2>
+      
+      <div class="script-card" onclick="copyScript(this)">
+        <div class="script-situation">WHEN TEAMMATES ORDER PIZZA</div>
+        <div class="script-response">"I'll grab 2 slices and hit the salad bar hard. Gotta keep my energy up for tomorrow's practice."</div>
+        <div class="script-action">ACTION: Get protein shake from your room after</div>
+      </div>
+      
+      <div class="script-card" onclick="copyScript(this)">
+        <div class="script-situation">ENERGY DRINK OFFER</div>
+        <div class="script-response">"Nah I'm good, that stuff makes me crash during practice. I've got my water."</div>
+        <div class="script-action">FACT: Energy drinks spike insulin for 4+ hours, blocking fat burn</div>
+      </div>
+      
+      <div class="script-card" onclick="copyScript(this)">
+        <div class="script-situation">SKIP WORKOUT PRESSURE</div>
+        <div class="script-response">"Can't miss today - coaches are watching my consistency. Catch you after."</div>
+        <div class="script-action">REMINDER: [School Name] recruiter asked about your work ethic</div>
+      </div>
+      
+      <div class="script-card" onclick="copyScript(this)">
+        <div class="script-situation">LATE NIGHT FAST FOOD RUN</div>
+        <div class="script-response">"I'm set - got food in my room. But I'll ride with y'all."</div>
+        <div class="script-action">ACTION: Keep protein bars/shakes stocked always</div>
+      </div>
+      
+      <div class="script-card" onclick="copyScript(this)">
+        <div class="script-situation">MORNING DONUT BOX</div>
+        <div class="script-response">"Already ate - had to get my protein in early. Looks good though!"</div>
+        <div class="script-action">FACT: Sugar at breakfast = energy crash by 10am</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Progress Tab -->
+  <div class="tab-content" id="progress">
+    <div class="card">
+      <h2 class="card-title">YOUR JOURNEY TO D1</h2>
+      
+      <div style="text-align: center; margin: 30px 0;">
+        <div style="font-family: 'Bebas Neue', sans-serif; font-size: 1.8em; color: var(--yellow); margin-bottom: 20px;">
+          CURRENT STREAK POWER
+        </div>
+        <div style="font-size: 5em;" id="bigStreakFire">🔥</div>
+        <div style="font-family: 'Bebas Neue', sans-serif; font-size: 2.5em; color: var(--orange);" id="bigStreakDays">0 DAYS</div>
+      </div>
+    </div>
+    
+    <div class="card">
+      <h2 class="card-title">WEIGHT LOSS MILESTONES</h2>
+      <div style="background: rgba(0,0,0,0.4); border-radius: 12px; padding: 25px; margin: 20px 0;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px;">
+          <div style="text-align: center; flex: 1;">
+            <div style="font-family: 'Bebas Neue', sans-serif; font-size: 1.2em; color: var(--gray);">START</div>
+            <div style="font-family: 'Bebas Neue', sans-serif; font-size: 2.5em; color: var(--red);">375</div>
+            <div style="color: var(--gray); font-size: 0.9em;">LBS</div>
+          </div>
+          <div style="text-align: center; flex: 1;">
+            <div style="font-family: 'Bebas Neue', sans-serif; font-size: 1.2em; color: var(--yellow);">CURRENT</div>
+            <div style="font-family: 'Bebas Neue', sans-serif; font-size: 3em; color: var(--yellow);" id="currentWeight">375</div>
+            <div style="color: var(--yellow); font-size: 0.9em;">LBS</div>
+          </div>
+          <div style="text-align: center; flex: 1;">
+            <div style="font-family: 'Bebas Neue', sans-serif; font-size: 1.2em; color: var(--green);">GOAL</div>
+            <div style="font-family: 'Bebas Neue', sans-serif; font-size: 2.5em; color: var(--green);">325</div>
+            <div style="color: var(--green); font-size: 0.9em;">LBS</div>
+          </div>
+        </div>
+        
+        <div style="background: rgba(0,0,0,0.5); border-radius: 10px; padding: 20px;">
+          <div style="font-family: 'Bebas Neue', sans-serif; font-size: 1.3em; color: var(--yellow); text-align: center; margin-bottom: 15px;">
+            5-POUND MILESTONES
+          </div>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(80px, 1fr)); gap: 10px;">
+            <div class="milestone-badge" id="milestone-370">370 lbs</div>
+            <div class="milestone-badge" id="milestone-365">365 lbs</div>
+            <div class="milestone-badge" id="milestone-360">360 lbs</div>
+            <div class="milestone-badge" id="milestone-355">355 lbs</div>
+            <div class="milestone-badge" id="milestone-350">350 lbs</div>
+            <div class="milestone-badge" id="milestone-345">345 lbs</div>
+            <div class="milestone-badge" id="milestone-340">340 lbs</div>
+            <div class="milestone-badge" id="milestone-335">335 lbs</div>
+            <div class="milestone-badge" id="milestone-330">330 lbs</div>
+            <div class="milestone-badge" id="milestone-325">325 lbs 🎯</div>
+          </div>
+        </div>
+        
+        <div style="margin-top: 20px; padding: 15px; background: linear-gradient(135deg, rgba(245, 200, 66, 0.1) 0%, rgba(255, 215, 0, 0.05) 100%); border-radius: 10px;">
+          <div style="font-family: 'Bebas Neue', sans-serif; font-size: 1.2em; color: var(--yellow); text-align: center; margin-bottom: 10px;">
+            TOTAL PROGRESS
+          </div>
+          <div style="background: rgba(0,0,0,0.5); height: 30px; border-radius: 15px; overflow: hidden;">
+            <div style="height: 100%; background: linear-gradient(90deg, var(--green), var(--yellow)); width: 0%; transition: width 1s ease;" id="totalProgress">
+              <div style="text-align: center; line-height: 30px; color: var(--black); font-weight: bold;" id="progressText">0 lbs lost</div>
+            </div>
+          </div>
+          <div style="display: flex; justify-content: space-between; margin-top: 10px;">
+            <span style="color: var(--white); font-size: 0.9em;" id="lostText">0 lbs lost</span>
+            <span style="color: var(--yellow); font-size: 0.9em;" id="remainingText">50 lbs to go</span>
+          </div>
+        </div>
+        
+        <div style="margin-top: 20px; padding: 15px; background: rgba(76, 175, 80, 0.1); border: 2px solid var(--green); border-radius: 10px;">
+          <h4 style="color: var(--green); font-family: 'Bebas Neue', sans-serif; margin-bottom: 10px;">HEALTHY PACE TARGETS</h4>
+          <ul style="color: var(--white); line-height: 1.8;">
+            <li>Safe rate: 2-3 lbs per week with insulin resistance</li>
+            <li>Waist goal: -0.5 inches every 2 weeks</li>
+            <li>Timeline: 17-25 weeks to reach 325 lbs</li>
+            <li>Focus: Clean eating + consistent movement</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    
+    <div class="card">
+      <h2 class="card-title">WINS & IMPROVEMENTS</h2>
+      <div class="input-section">
+        <label class="input-label">Today's Win:</label>
+        <input type="text" class="input-field" id="daily-win" placeholder="e.g., Finished all reps at practice">
+      </div>
+      <button class="btn-primary" onclick="logWin()">LOG WIN</button>
+      
+      <div class="history-log" id="wins-log" style="margin-top: 20px;">
+        <!-- Wins will be displayed here -->
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<script>
+// Initialize app data
+let appData = {
+  checkins: [],
+  meals: [],
+  workouts: [],
+  wins: [],
+  weeklyScores: {
+    finish: 0,
+    footwork: 0,
+    nutrition: 0,
+    waist: '--'
+  },
+  streak: 0,
+  level: 'ROOKIE',
+  xp: 0,
+  lastMovementReminder: Date.now(),
+  startWeight: 375,
+  goalWeight: 325
+};
+
+// Movement reminder interval (30 minutes)
+const MOVEMENT_INTERVAL = 30 * 60 * 1000;
+
+// Load data from localStorage
+function loadData() {
+  const saved = localStorage.getItem('joshTrackerData');
+  if (saved) {
+    appData = JSON.parse(saved);
+    updateDashboard();
+    displayHistory();
+    updateStreak();
+    updateLevel();
+    updateWeightProgress();
+  }
+  
+  // Start movement reminders
+  setInterval(checkMovementReminder, 60000); // Check every minute
+}
+
+// Save data to localStorage
+function saveData() {
+  localStorage.setItem('joshTrackerData', JSON.stringify(appData));
+}
+
+// Tab navigation
+function showTab(tabName) {
+  const tabs = document.querySelectorAll('.tab-content');
+  tabs.forEach(tab => tab.classList.remove('active'));
+  
+  const targetTab = document.getElementById(tabName);
+  if (targetTab) {
+    targetTab.classList.add('active');
+  }
+  
+  const buttons = document.querySelectorAll('.nav-btn');
+  buttons.forEach(btn => btn.classList.remove('active'));
+  
+  event.target.classList.add('active');
+}
+
+// Update streak display
+function updateStreak() {
+  const today = new Date();
+  const todayStr = today.toISOString().split('T')[0];
+  
+  // Calculate streak based on clean days
+  const recentMeals = appData.meals.slice(-30);
+  let currentStreak = 0;
+  let checkDate = new Date(today);
+  
+  while (currentStreak < 30) {
+    const dateStr = checkDate.toISOString().split('T')[0];
+    const dayMeals = recentMeals.filter(m => m.date.split('T')[0] === dateStr);
+    
+    if (dayMeals.length === 0 && currentStreak === 0) {
+      // No meals today yet, check yesterday
+      checkDate.setDate(checkDate.getDate() - 1);
+      continue;
+    }
+    
+    if (dayMeals.some(m => m.category === 'red')) {
+      break; // Streak broken
+    }
+    
+    if (dayMeals.length > 0) {
+      currentStreak++;
+    }
+    
+    checkDate.setDate(checkDate.getDate() - 1);
+  }
+  
+  appData.streak = currentStreak;
+  
+  // Update displays
+  const streakText = currentStreak + (currentStreak === 1 ? ' DAY STREAK' : ' DAYS STREAK');
+  document.getElementById('streakCount').textContent = streakText;
+  document.getElementById('bigStreakDays').textContent = currentStreak + (currentStreak === 1 ? ' DAY' : ' DAYS');
+  
+  // Update fire size based on streak
+  const fireElement = document.getElementById('streakFire');
+  const bigFireElement = document.getElementById('bigStreakFire');
+  
+  if (currentStreak >= 7) {
+    fireElement.style.fontSize = '2em';
+    bigFireElement.style.fontSize = '7em';
+  } else if (currentStreak >= 3) {
+    fireElement.style.fontSize = '1.75em';
+    bigFireElement.style.fontSize = '6em';
+  } else {
+    fireElement.style.fontSize = '1.5em';
+    bigFireElement.style.fontSize = '5em';
+  }
+  
+  saveData();
+}
+
+// Update level system
+function updateLevel() {
+  // Calculate XP based on activities
+  let totalXP = 0;
+  
+  // XP from check-ins
+  totalXP += appData.checkins.length * 10;
+  
+  // XP from clean meals
+  totalXP += appData.meals.filter(m => m.category !== 'red').length * 5;
+  
+  // XP from high finish %
+  appData.checkins.forEach(c => {
+    if (c.finish >= 90) totalXP += 20;
+  });
+  
+  // XP from streak
+  totalXP += appData.streak * 15;
+  
+  appData.xp = totalXP;
+  
+  // Determine level
+  let level = 'ROOKIE';
+  let progress = 25;
+  
+  if (totalXP >= 1000) {
+    level = 'D1 READY';
+    progress = 100;
+  } else if (totalXP >= 600) {
+    level = 'ALL-CONFERENCE';
+    progress = 75 + (totalXP - 600) / 16;
+  } else if (totalXP >= 300) {
+    level = 'STARTER';
+    progress = 50 + (totalXP - 300) / 12;
+  } else if (totalXP >= 100) {
+    level = 'ROOKIE';
+    progress = 25 + (totalXP - 100) / 8;
+  }
+  
+  // Check for level up
+  if (level !== appData.level && appData.level) {
+    showLevelUp();
+  }
+  
+  appData.level = level;
+  
+  // Update UI
+  document.getElementById('currentLevel').textContent = level;
+  document.getElementById('levelProgress').style.width = progress + '%';
+  document.getElementById('progressPercent').textContent = Math.round(progress) + '%';
+  
+  // Update badges
+  const levels = ['rookie', 'starter', 'allconf', 'd1'];
+  const levelIndex = ['ROOKIE', 'STARTER', 'ALL-CONFERENCE', 'D1 READY'].indexOf(level);
+  
+  levels.forEach((l, i) => {
+    const badge = document.getElementById('badge-' + l);
+    if (badge) {
+      if (i <= levelIndex) {
+        badge.classList.add('earned');
+      } else {
+        badge.classList.remove('earned');
+      }
+    }
+  });
+  
+  saveData();
+}
+
+// Update weight tracking and milestones
+function updateWeightProgress() {
+  const recentCheckins = appData.checkins.filter(c => c.weight).sort((a, b) => new Date(b.date) - new Date(a.date));
+  
+  if (recentCheckins.length > 0) {
+    const currentWeight = recentCheckins[0].weight;
+    const startWeight = appData.startWeight || 375;
+    const goalWeight = appData.goalWeight || 325;
+    
+    // Update current weight display
+    document.getElementById('currentWeight').textContent = Math.round(currentWeight);
+    
+    // Calculate progress
+    const totalToLose = startWeight - goalWeight;
+    const lostSoFar = startWeight - currentWeight;
+    const remaining = currentWeight - goalWeight;
+    const progressPercent = Math.max(0, Math.min(100, (lostSoFar / totalToLose) * 100));
+    
+    // Update progress bar
+    const progressBar = document.getElementById('totalProgress');
+    if (progressBar) {
+      progressBar.style.width = progressPercent + '%';
+    }
+    
+    document.getElementById('progressText').textContent = Math.round(lostSoFar) + ' lbs lost';
+    document.getElementById('lostText').textContent = Math.round(lostSoFar) + ' lbs lost';
+    document.getElementById('remainingText').textContent = Math.round(remaining) + ' lbs to go';
+    
+    // Update milestone badges
+    const milestones = [370, 365, 360, 355, 350, 345, 340, 335, 330, 325];
+    milestones.forEach(milestone => {
+      const badge = document.getElementById('milestone-' + milestone);
+      if (badge) {
+        badge.classList.remove('achieved', 'next');
+        
+        if (currentWeight <= milestone) {
+          badge.classList.add('achieved');
+          // Special celebration for hitting a new milestone
+          if (currentWeight === milestone) {
+            celebrateMilestone(milestone);
+          }
+        } else if (currentWeight > milestone && currentWeight <= milestone + 5) {
+          badge.classList.add('next');
+        }
+      }
+    });
+  }
+}
+
+// Show level up animation
+function showLevelUp() {
+  const animation = document.getElementById('levelUpAnimation');
+  animation.classList.add('active');
+  
+  setTimeout(() => {
+    animation.classList.remove('active');
+  }, 2000);
+  
+  // Vibrate if available
+  if (navigator.vibrate) {
+    navigator.vibrate([200, 100, 200]);
+  }
+}
+
+// Celebrate milestone achievement
+function celebrateMilestone(weight) {
+  // Show special animation
+  const levelUpAnimation = document.getElementById('levelUpAnimation');
+  levelUpAnimation.textContent = weight + ' LBS REACHED!';
+  levelUpAnimation.classList.add('active');
+  
+  setTimeout(() => {
+    levelUpAnimation.classList.remove('active');
+  }, 2000);
+  
+  // Add bonus XP
+  appData.xp += 50;
+  updateLevel();
+  
+  // Vibrate celebration pattern
+  if (navigator.vibrate) {
+    navigator.vibrate([200, 100, 200, 100, 500]);
+  }
+}
+
+// Celebrate goal achievement
+function celebrateGoal(type) {
+  const lightning = document.getElementById('lightning-' + type);
+  lightning.classList.add('active');
+  
+  setTimeout(() => {
+    lightning.classList.remove('active');
+  }, 500);
+  
+  // Vibrate if available
+  if (navigator.vibrate) {
+    navigator.vibrate(100);
+  }
+}
+
+// Movement reminder system
+function checkMovementReminder() {
+  const now = Date.now();
+  const timeSinceLastReminder = now - appData.lastMovementReminder;
+  
+  if (timeSinceLastReminder >= MOVEMENT_INTERVAL) {
+    showMovementReminder();
+    appData.lastMovementReminder = now;
+    saveData();
+  }
+}
+
+function showMovementReminder() {
+  const reminder = document.getElementById('movementReminder');
+  reminder.classList.add('active');
+  
+  // Vibrate if available
+  if (navigator.vibrate) {
+    navigator.vibrate([100, 50, 100]);
+  }
+  
+  // Auto-dismiss after 10 seconds
+  setTimeout(() => {
+    dismissMovementReminder();
+  }, 10000);
+}
+
+function dismissMovementReminder() {
+  const reminder = document.getElementById('movementReminder');
+  reminder.classList.remove('active');
+}
+
+// Check food category and show warning
+function checkFoodCategory() {
+  const category = document.getElementById('meal-category').value;
+  
+  if (category === 'red') {
+    showInsulinWarning();
+  }
+}
+
+// Show insulin warning for red foods
+function showInsulinWarning() {
+  const modal = document.getElementById('warningModal');
+  const content = document.getElementById('warningContent');
+  
+  content.innerHTML = `
+    <p style="font-size: 1.2em; margin-bottom: 15px;">This food will:</p>
+    <ul style="text-align: left; padding-left: 20px;">
+      <li>Spike your insulin for 4+ hours</li>
+      <li>Force your body to store fat instead of burning it</li>
+      <li>Crash your energy before practice</li>
+      <li>Make it harder to build muscle</li>
+    </ul>
+    <p style="margin-top: 15px; color: var(--yellow);">Your D1 dreams are worth more than this moment.</p>
+  `;
+  
+  modal.classList.add('active');
+  
+  // Vibrate if available
+  if (navigator.vibrate) {
+    navigator.vibrate([200, 100, 200, 100, 200]);
+  }
+}
+
+function closeWarning() {
+  const modal = document.getElementById('warningModal');
+  modal.classList.remove('active');
+}
+
+// Copy script to clipboard
+function copyScript(element) {
+  const response = element.querySelector('.script-response').textContent;
+  
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(response);
+    
+    // Visual feedback
+    element.style.background = 'rgba(76, 175, 80, 0.3)';
+    setTimeout(() => {
+      element.style.background = '';
+    }, 500);
+    
+    // Vibrate if available
+    if (navigator.vibrate) {
+      navigator.vibrate(50);
+    }
+  }
+}
+
+// Update dashboard
+function updateDashboard() {
+  const today = new Date();
+  const weekAgo = new Date(today.getTime() - 7 * 24 * 60 * 60 * 1000);
+  
+  const weeklyCheckins = appData.checkins.filter(c => new Date(c.date) >= weekAgo);
+  
+  if (weeklyCheckins.length > 0) {
+    // Calculate finish %
+    const finishAvg = weeklyCheckins.reduce((sum, c) => sum + (c.finish || 0), 0) / weeklyCheckins.length;
+    document.getElementById('finish-value').textContent = Math.round(finishAvg) + '%';
+    if (finishAvg >= 90) {
+      document.getElementById('finish-score').classList.add('completed');
+      celebrateGoal('finish');
+    }
+    
+    // Calculate footwork sessions
+    const footworkCount = weeklyCheckins.filter(c => c.footwork).length;
+    document.getElementById('footwork-value').textContent = footworkCount + '/5';
+    if (footworkCount >= 5) {
+      document.getElementById('footwork-score').classList.add('completed');
+      celebrateGoal('footwork');
+    }
+    
+    // Calculate nutrition streak
+    const weeklyMeals = appData.meals.filter(m => new Date(m.date) >= weekAgo);
+    const cleanDays = new Set(weeklyMeals.filter(m => m.category !== 'red').map(m => m.date.split('T')[0])).size;
+    document.getElementById('nutrition-value').textContent = cleanDays + '/7';
+    if (cleanDays >= 6) {
+      document.getElementById('nutrition-score').classList.add('completed');
+      celebrateGoal('nutrition');
+    }
+    
+    // Calculate waist trend
+    if (weeklyCheckins.length >= 2) {
+      const firstWaist = weeklyCheckins[0].waist;
+      const lastWaist = weeklyCheckins[weeklyCheckins.length - 1].waist;
+      if (firstWaist && lastWaist) {
+        const change = lastWaist - firstWaist;
+        document.getElementById('waist-value').textContent = change.toFixed(2) + '"';
+        if (change <= -0.25) {
+          document.getElementById('waist-score').classList.add('completed');
+        }
+      }
+    }
+  }
+  
+  updateLevel();
+}
+
+// Save daily check-in
+function saveDailyCheckin() {
+  const checkin = {
+    date: new Date().toISOString(),
+    weight: parseFloat(document.getElementById('daily-weight').value),
+    waist: parseFloat(document.getElementById('daily-waist').value),
+    finish: parseFloat(document.getElementById('daily-finish').value),
+    sleep: parseFloat(document.getElementById('daily-sleep').value),
+    energy: parseFloat(document.getElementById('daily-energy').value),
+    footwork: document.getElementById('footwork-session').checked
+  };
+  
+  if (checkin.weight || checkin.waist || checkin.finish) {
+    appData.checkins.push(checkin);
+    saveData();
+    updateDashboard();
+    displayHistory();
+    updateLevel();
+    updateWeightProgress();
+    
+    // Check for achievements
+    if (checkin.finish >= 90) {
+      celebrateGoal('finish');
+    }
+    
+    // Clear inputs
+    document.getElementById('daily-weight').value = '';
+    document.getElementById('daily-waist').value = '';
+    document.getElementById('daily-finish').value = '';
+    document.getElementById('daily-sleep').value = '';
+    document.getElementById('daily-energy').value = '';
+    
+    // Success animation
+    const card = event.target.closest('.card');
+    card.classList.add('success');
+    setTimeout(() => card.classList.remove('success'), 1000);
+    
+    // Vibrate if available
+    if (navigator.vibrate) {
+      navigator.vibrate(100);
+    }
+  }
+}
+
+// Display check-in history
+function displayHistory() {
+  const historyDiv = document.getElementById('checkin-history');
+  if (!historyDiv) return;
+  
+  historyDiv.innerHTML = '';
+  
+  const recentCheckins = appData.checkins.slice(-7).reverse();
+  recentCheckins.forEach(checkin => {
+    const entry = document.createElement('div');
+    entry.className = 'log-entry';
+    
+    const date = new Date(checkin.date).toLocaleDateString('en-US', {
+      weekday: 'short',
+      month: 'short',
+      day: 'numeric'
+    });
+    
+    let details = [];
+    if (checkin.weight) details.push(`Weight: ${checkin.weight} lbs`);
+    if (checkin.waist) details.push(`Waist: ${checkin.waist}"`);
+    if (checkin.finish) details.push(`Finish: ${checkin.finish}%`);
+    if (checkin.sleep) details.push(`Sleep: ${checkin.sleep}h`);
+    if (checkin.energy) details.push(`Energy: ${checkin.energy}/10`);
+    
+    entry.innerHTML = `
+      <div class="log-date">${date}</div>
+      <div class="log-details">${details.join(' • ')}</div>
+    `;
+    
+    historyDiv.appendChild(entry);
+  });
+}
+
+// Log meal
+function logMeal() {
+  const meal = {
+    date: new Date().toISOString(),
+    time: document.getElementById('meal-time').value,
+    content: document.getElementById('meal-content').value,
+    category: document.getElementById('meal-category').value
+  };
+  
+  if (meal.content) {
+    appData.meals.push(meal);
+    saveData();
+    updateDashboard();
+    updateStreak();
+    updateLevel();
+    
+    // Clear inputs
+    document.getElementById('meal-content').value = '';
+    document.getElementById('meal-category').value = 'green';
+    
+    // Success animation
+    const card = event.target.closest('.card');
+    card.classList.add('success');
+    setTimeout(() => card.classList.remove('success'), 1000);
+    
+    // Vibrate if available
+    if (navigator.vibrate) {
+      navigator.vibrate(100);
+    }
+  }
+}
+
+// Log win
+function logWin() {
+  const winText = document.getElementById('daily-win').value;
+  
+  if (winText) {
+    const win = {
+      date: new Date().toISOString(),
+      text: winText
+    };
+    
+    appData.wins.push(win);
+    saveData();
+    updateLevel();
+    
+    // Clear input
+    document.getElementById('daily-win').value = '';
+    
+    // Update wins display
+    displayWins();
+    
+    // Vibrate if available
+    if (navigator.vibrate) {
+      navigator.vibrate(100);
+    }
+  }
+}
+
+// Display wins
+function displayWins() {
+  const winsLog = document.getElementById('wins-log');
+  if (!winsLog) return;
+  
+  winsLog.innerHTML = '';
+  
+  const recentWins = appData.wins.slice(-5).reverse();
+  recentWins.forEach(win => {
+    const entry = document.createElement('div');
+    entry.className = 'log-entry';
+    
+    const date = new Date(win.date).toLocaleDateString('en-US', {
+      weekday: 'short',
+      month: 'short',
+      day: 'numeric'
+    });
+    
+    entry.innerHTML = `
+      <div class="log-date">${date}</div>
+      <div class="log-details">${win.text}</div>
+    `;
+    
+    winsLog.appendChild(entry);
+  });
+}
+
+// Update checklist
+function updateChecklist() {
+  const checkboxes = document.querySelectorAll('.checkbox-item input[type="checkbox"]');
+  const completed = Array.from(checkboxes).filter(cb => cb.checked).length;
+  
+  // Visual feedback
+  checkboxes.forEach(cb => {
+    const item = cb.closest('.checkbox-item');
+    if (cb.checked) {
+      item.style.background = 'rgba(76, 175, 80, 0.2)';
+      item.style.borderColor = 'var(--green)';
+      
+      // Vibrate on check
+      if (navigator.vibrate) {
+        navigator.vibrate(50);
+      }
+    } else {
+      item.style.background = 'rgba(0,0,0,0.3)';
+      item.style.borderColor = 'var(--border)';
+    }
+  });
+  
+  // Award XP for completing tasks
+  if (completed === checkboxes.length) {
+    appData.xp += 5;
+    updateLevel();
+  }
+}
+
+// Initialize on load
+document.addEventListener('DOMContentLoaded', function() {
+  loadData();
+  displayWins();
+  updateWeightProgress();
+  
+  // Set initial movement reminder time
+  if (!appData.lastMovementReminder) {
+    appData.lastMovementReminder = Date.now();
+  }
+});
+</script>
+
+</body>
+</html>

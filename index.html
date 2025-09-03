@@ -829,59 +829,268 @@
   
   /* Mobile Responsive */
   @media (max-width: 768px) {
+    /* Header optimization */
+    header {
+      padding: 10px 15px;
+    }
+    
     .header-content {
       flex-wrap: wrap;
       justify-content: center;
-      gap: 15px;
+      gap: 10px;
     }
     
     .logo-wrapper img {
-      width: 120px;
+      width: 100px;
+      height: auto;
     }
     
     .header-center {
-      flex-direction: column;
-      gap: 10px;
+      flex-direction: row;
+      gap: 15px;
       width: 100%;
       align-items: center;
+      justify-content: space-between;
     }
     
     .streak-display {
-      order: 2;
+      padding: 5px 10px;
+      order: 1;
+    }
+    
+    .streak-fire {
+      font-size: 1.1em;
+    }
+    
+    .streak-count {
+      font-size: 0.9em;
     }
     
     .athlete-name {
-      order: 1;
-      font-size: 1.2em;
+      order: 2;
+      font-size: 1.1em;
+    }
+    
+    /* Navigation optimization */
+    nav {
+      padding: 10px;
+      top: 60px;
+    }
+    
+    .nav-wrapper {
+      gap: 8px;
+      padding-bottom: 8px;
+    }
+    
+    .nav-btn {
+      padding: 10px 20px;
+      font-size: 1em;
+      min-width: 100px;
+    }
+    
+    /* Content optimization */
+    main {
+      padding: 20px 15px;
+    }
+    
+    .card {
+      padding: 20px;
+    }
+    
+    .card-title {
+      font-size: 1.8em;
+    }
+    
+    .identity-text {
+      font-size: 1.8em;
     }
     
     .current-level {
       font-size: 1.8em;
     }
     
-    .scoreboard-grid {
-      grid-template-columns: 1fr;
-    }
-    
-    .food-grid {
-      grid-template-columns: 1fr;
+    /* Touch-friendly inputs */
+    .input-field {
+      padding: 15px;
+      font-size: 16px; /* Prevents iOS zoom */
+      border-radius: 10px;
+      touch-action: manipulation;
     }
     
     .input-section {
       flex-direction: column;
       align-items: stretch;
+      gap: 10px;
     }
     
     .input-label {
       min-width: auto;
+      font-size: 1em;
+      margin-bottom: 5px;
     }
     
+    /* Larger checkboxes for touch */
+    .checkbox-item {
+      padding: 12px 15px;
+      margin-bottom: 5px;
+    }
+    
+    .checkbox-item input[type="checkbox"] {
+      width: 28px;
+      height: 28px;
+      flex-shrink: 0;
+    }
+    
+    .checkbox-item label {
+      font-size: 1em;
+      padding-left: 5px;
+    }
+    
+    /* Button optimization */
+    .btn-primary, .btn-secondary {
+      padding: 15px 30px;
+      font-size: 1.1em;
+      width: 100%;
+      touch-action: manipulation;
+    }
+    
+    /* Grid layouts */
+    .scoreboard-grid {
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+    }
+    
+    .score-item {
+      padding: 15px;
+    }
+    
+    .score-value {
+      font-size: 2em;
+    }
+    
+    .score-label {
+      font-size: 0.85em;
+    }
+    
+    .food-grid {
+      grid-template-columns: 1fr;
+      gap: 15px;
+    }
+    
+    .food-category {
+      padding: 15px;
+    }
+    
+    .food-category h3 {
+      font-size: 1.5em;
+    }
+    
+    /* Level badges */
+    .level-badges {
+      gap: 8px;
+    }
+    
+    .badge {
+      padding: 6px 12px;
+      font-size: 0.8em;
+    }
+    
+    /* Milestone badges */
+    .milestone-badge {
+      padding: 6px 10px;
+      font-size: 0.9em;
+    }
+    
+    /* Script cards */
+    .script-card {
+      padding: 15px;
+    }
+    
+    .script-situation {
+      font-size: 1.2em;
+    }
+    
+    /* Movement reminder */
     .movement-reminder {
       bottom: 10px;
       right: 10px;
       left: 10px;
       justify-content: center;
+      padding: 12px 20px;
+      font-size: 0.95em;
     }
+    
+    .movement-icon {
+      font-size: 1.2em;
+    }
+    
+    /* Warning modal */
+    .warning-modal {
+      width: 95%;
+      padding: 20px;
+    }
+    
+    .warning-title {
+      font-size: 1.5em;
+    }
+    
+    /* History log */
+    .history-log {
+      padding: 15px;
+      max-height: 300px;
+    }
+    
+    .log-entry {
+      padding: 10px;
+      margin-bottom: 8px;
+    }
+    
+    .log-date {
+      font-size: 1em;
+    }
+    
+    .log-details {
+      font-size: 0.9em;
+    }
+  }
+  
+  /* Extra small devices */
+  @media (max-width: 380px) {
+    .logo-wrapper img {
+      width: 80px;
+    }
+    
+    .identity-text {
+      font-size: 1.5em;
+    }
+    
+    .card-title {
+      font-size: 1.5em;
+    }
+    
+    .scoreboard-grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .nav-btn {
+      font-size: 0.95em;
+      padding: 10px 15px;
+    }
+  }
+  
+  /* Prevent double-tap zoom on all interactive elements */
+  button, input, select, textarea, .checkbox-item, .script-card, .score-item {
+    touch-action: manipulation;
+  }
+  
+  /* Improve scrolling performance */
+  * {
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  /* Better tap highlights */
+  button:active, .checkbox-item:active, .script-card:active {
+    opacity: 0.8;
   }
 </style>
 </head>

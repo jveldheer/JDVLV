@@ -831,13 +831,13 @@
   @media (max-width: 768px) {
     /* Header optimization */
     header {
-      padding: 10px 15px;
+      padding: 12px 15px;
     }
     
     .header-content {
       flex-wrap: wrap;
       justify-content: center;
-      gap: 10px;
+      gap: 12px;
     }
     
     .logo-wrapper img {
@@ -854,64 +854,78 @@
     }
     
     .streak-display {
-      padding: 5px 10px;
+      padding: 6px 12px;
       order: 1;
     }
     
     .streak-fire {
-      font-size: 1.1em;
+      font-size: 1.2em;
     }
     
     .streak-count {
-      font-size: 0.9em;
+      font-size: 1em;
     }
     
     .athlete-name {
       order: 2;
-      font-size: 1.1em;
+      font-size: 1.2em;
     }
     
     /* Navigation optimization */
     nav {
-      padding: 10px;
-      top: 60px;
+      padding: 12px 10px;
+      top: 65px;
     }
     
     .nav-wrapper {
-      gap: 8px;
-      padding-bottom: 8px;
+      gap: 6px;
+      padding-bottom: 5px;
     }
     
     .nav-btn {
-      padding: 10px 20px;
-      font-size: 1em;
-      min-width: 100px;
+      padding: 10px 16px;
+      font-size: 0.95em;
+      min-width: auto;
+      letter-spacing: 0.5px;
     }
     
     /* Content optimization */
     main {
-      padding: 20px 15px;
+      padding: 25px 15px;
     }
     
     .card {
       padding: 20px;
+      margin-bottom: 20px;
     }
     
     .card-title {
       font-size: 1.8em;
+      margin-bottom: 20px;
+    }
+    
+    .identity-card {
+      padding: 20px 15px;
+      margin-bottom: 20px;
     }
     
     .identity-text {
-      font-size: 1.8em;
+      font-size: 1.6em;
+      line-height: 1.2;
     }
     
     .current-level {
       font-size: 1.8em;
     }
     
+    .level-system {
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    
     /* Touch-friendly inputs */
     .input-field {
-      padding: 15px;
+      padding: 14px;
       font-size: 16px; /* Prevents iOS zoom */
       border-radius: 10px;
       touch-action: manipulation;
@@ -920,35 +934,40 @@
     .input-section {
       flex-direction: column;
       align-items: stretch;
-      gap: 10px;
+      gap: 8px;
+      margin: 12px 0;
     }
     
     .input-label {
       min-width: auto;
-      font-size: 1em;
+      font-size: 0.95em;
       margin-bottom: 5px;
     }
     
     /* Larger checkboxes for touch */
+    .checkbox-group {
+      gap: 10px;
+      margin: 15px 0;
+    }
+    
     .checkbox-item {
-      padding: 12px 15px;
-      margin-bottom: 5px;
+      padding: 10px 12px;
     }
     
     .checkbox-item input[type="checkbox"] {
-      width: 28px;
-      height: 28px;
+      width: 26px;
+      height: 26px;
       flex-shrink: 0;
     }
     
     .checkbox-item label {
-      font-size: 1em;
-      padding-left: 5px;
+      font-size: 0.95em;
+      padding-left: 8px;
     }
     
     /* Button optimization */
     .btn-primary, .btn-secondary {
-      padding: 15px 30px;
+      padding: 14px 25px;
       font-size: 1.1em;
       width: 100%;
       touch-action: manipulation;
@@ -957,24 +976,30 @@
     /* Grid layouts */
     .scoreboard-grid {
       grid-template-columns: 1fr 1fr;
-      gap: 15px;
+      gap: 12px;
+      margin-bottom: 20px;
     }
     
     .score-item {
-      padding: 15px;
+      padding: 15px 10px;
     }
     
     .score-value {
-      font-size: 2em;
+      font-size: 1.8em;
     }
     
     .score-label {
-      font-size: 0.85em;
+      font-size: 0.75em;
+    }
+    
+    .score-target {
+      font-size: 0.8em;
+      margin-top: 8px;
     }
     
     .food-grid {
       grid-template-columns: 1fr;
-      gap: 15px;
+      gap: 12px;
     }
     
     .food-category {
@@ -982,32 +1007,52 @@
     }
     
     .food-category h3 {
-      font-size: 1.5em;
+      font-size: 1.4em;
+      margin-bottom: 12px;
+    }
+    
+    .food-list li {
+      padding: 6px 0;
+      font-size: 0.9em;
     }
     
     /* Level badges */
     .level-badges {
       gap: 8px;
+      margin-top: 15px;
     }
     
     .badge {
-      padding: 6px 12px;
-      font-size: 0.8em;
+      padding: 6px 10px;
+      font-size: 0.75em;
     }
     
     /* Milestone badges */
     .milestone-badge {
-      padding: 6px 10px;
-      font-size: 0.9em;
+      padding: 6px 8px;
+      font-size: 0.85em;
     }
     
     /* Script cards */
     .script-card {
       padding: 15px;
+      margin-bottom: 12px;
     }
     
     .script-situation {
-      font-size: 1.2em;
+      font-size: 1.15em;
+      margin-bottom: 8px;
+    }
+    
+    .script-response {
+      padding: 8px;
+      font-size: 0.9em;
+      margin: 8px 0;
+    }
+    
+    .script-action {
+      font-size: 0.85em;
+      margin-top: 8px;
     }
     
     /* Movement reminder */
@@ -1016,17 +1061,17 @@
       right: 10px;
       left: 10px;
       justify-content: center;
-      padding: 12px 20px;
-      font-size: 0.95em;
+      padding: 10px 15px;
+      font-size: 0.9em;
     }
     
     .movement-icon {
-      font-size: 1.2em;
+      font-size: 1.1em;
     }
     
     /* Warning modal */
     .warning-modal {
-      width: 95%;
+      width: 92%;
       padding: 20px;
     }
     
@@ -1034,10 +1079,14 @@
       font-size: 1.5em;
     }
     
+    .warning-content {
+      font-size: 0.9em;
+    }
+    
     /* History log */
     .history-log {
-      padding: 15px;
-      max-height: 300px;
+      padding: 12px;
+      max-height: 280px;
     }
     
     .log-entry {
@@ -1050,7 +1099,7 @@
     }
     
     .log-details {
-      font-size: 0.9em;
+      font-size: 0.85em;
     }
   }
   
@@ -1061,7 +1110,7 @@
     }
     
     .identity-text {
-      font-size: 1.5em;
+      font-size: 1.4em;
     }
     
     .card-title {
@@ -1073,8 +1122,16 @@
     }
     
     .nav-btn {
-      font-size: 0.95em;
-      padding: 10px 15px;
+      font-size: 0.85em;
+      padding: 9px 12px;
+    }
+    
+    .streak-display {
+      padding: 5px 10px;
+    }
+    
+    .athlete-name {
+      font-size: 1em;
     }
   }
   
@@ -1340,7 +1397,178 @@
     </div>
   </div>
 
-  <!-- Social Scripts Tab -->
+  <!-- Blood Sugar Tab -->
+  <div class="tab-content" id="bloodsugar">
+    <div class="card">
+      <h2 class="card-title">GLUCOSE CONTROL CHEAT SHEET</h2>
+      
+      <div class="info-box" style="background: linear-gradient(135deg, rgba(255, 87, 34, 0.15) 0%, rgba(255, 87, 34, 0.05) 100%); border-color: var(--red);">
+        <h3 style="color: var(--red); text-transform: uppercase;">What Happens When You Eat Red Foods</h3>
+        <div style="margin: 15px 0; padding: 15px; background: rgba(0,0,0,0.5); border-radius: 8px;">
+          <p style="color: var(--yellow); font-weight: bold; margin-bottom: 10px;">With Insulin Resistance Like Josh Has:</p>
+          <ol style="color: var(--white); line-height: 1.8; padding-left: 20px;">
+            <li><strong>Immediate Spike:</strong> Blood sugar rockets up 2-3x higher than normal people</li>
+            <li><strong>Insulin Flood:</strong> Your pancreas panics, dumps massive insulin to compensate</li>
+            <li><strong>Fat Storage Mode:</strong> High insulin = body STOPS burning fat, STARTS storing everything as fat</li>
+            <li><strong>4-6 Hour Lock:</strong> Fat burning completely blocked while insulin stays elevated</li>
+            <li><strong>Energy Crash:</strong> 2 hours later, blood sugar crashes below baseline = exhausted at practice</li>
+            <li><strong>Hunger Cycle:</strong> Low blood sugar triggers more cravings = vicious cycle</li>
+          </ol>
+          <p style="color: var(--orange); margin-top: 15px; font-weight: bold; text-align: center; font-size: 1.1em;">
+            ONE SODA = 6+ HOURS OF ZERO FAT BURNING
+          </p>
+        </div>
+      </div>
+      
+      <div class="info-box">
+        <h3>MEAL TIMING STRATEGIES</h3>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px; margin-top: 15px;">
+          <div style="background: rgba(0,0,0,0.3); padding: 15px; border-radius: 8px; border-left: 3px solid var(--green);">
+            <h4 style="color: var(--green); margin-bottom: 10px;">✓ PROTEIN FIRST RULE</h4>
+            <ul style="color: var(--white); line-height: 1.6;">
+              <li>Eat 5-10 bites of protein BEFORE any carbs</li>
+              <li>Protein slows glucose absorption by 40%</li>
+              <li>Creates "cushion" in stomach</li>
+              <li>Reduces insulin spike significantly</li>
+            </ul>
+          </div>
+          <div style="background: rgba(0,0,0,0.3); padding: 15px; border-radius: 8px; border-left: 3px solid var(--green);">
+            <h4 style="color: var(--green); margin-bottom: 10px;">✓ VEGGIE STARTER</h4>
+            <ul style="color: var(--white); line-height: 1.6;">
+              <li>Salad or vegetables first if possible</li>
+              <li>Fiber creates gel-like barrier</li>
+              <li>Slows carb absorption by 30%</li>
+              <li>Keeps you fuller longer</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      
+      <div class="info-box">
+        <h3>CARB SPEED MATTERS</h3>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 15px;">
+          <div style="background: rgba(76, 175, 80, 0.1); padding: 15px; border-radius: 8px; border: 2px solid var(--green);">
+            <h4 style="color: var(--green);">SLOW CARBS (USE THESE)</h4>
+            <ul style="color: var(--white); line-height: 1.6;">
+              <li><strong>Oatmeal</strong> - steel cut best</li>
+              <li><strong>Sweet potatoes</strong> with skin</li>
+              <li><strong>Quinoa</strong> - complete protein too</li>
+              <li><strong>Beans/Lentils</strong> - fiber + protein</li>
+              <li><strong>Brown rice</strong> - not white</li>
+              <li><strong>Whole fruit</strong> - never juice</li>
+            </ul>
+          </div>
+          <div style="background: rgba(255, 87, 34, 0.1); padding: 15px; border-radius: 8px; border: 2px solid var(--red);">
+            <h4 style="color: var(--red);">FAST CARBS (AVOID)</h4>
+            <ul style="color: var(--white); line-height: 1.6;">
+              <li><strong>White bread</strong> - instant spike</li>
+              <li><strong>Juice</strong> - liquid sugar bomb</li>
+              <li><strong>Soda</strong> - worst possible choice</li>
+              <li><strong>Candy</strong> - pure glucose</li>
+              <li><strong>White rice</strong> - no fiber</li>
+              <li><strong>Chips/Crackers</strong> - processed</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      
+      <div class="info-box">
+        <h3>MOVEMENT HACKS</h3>
+        <div style="margin-top: 15px;">
+          <div style="background: rgba(0,0,0,0.3); padding: 15px; border-radius: 8px; margin-bottom: 10px;">
+            <h4 style="color: var(--yellow);">🚶 10-MINUTE WALK AFTER MEALS</h4>
+            <p style="color: var(--white); margin: 10px 0;">Reduces glucose spike by 30%. Muscles soak up sugar without needing insulin. Best hack for big meals.</p>
+          </div>
+          <div style="background: rgba(0,0,0,0.3); padding: 15px; border-radius: 8px; margin-bottom: 10px;">
+            <h4 style="color: var(--yellow);">💪 WALL SITS BEFORE EATING</h4>
+            <p style="color: var(--white); margin: 10px 0;">30-60 seconds activates large muscles. Creates "glucose sink" - muscles ready to absorb carbs.</p>
+          </div>
+          <div style="background: rgba(0,0,0,0.3); padding: 15px; border-radius: 8px;">
+            <h4 style="color: var(--yellow);">🏃 ZONE 2 CARDIO (NASAL BREATHING)</h4>
+            <p style="color: var(--white); margin: 10px 0;">20-30 min easy pace 3x/week. Improves insulin sensitivity by 40% over 6 weeks.</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="info-box">
+        <h3>SUPPLEMENT STACK</h3>
+        <div style="margin-top: 15px;">
+          <div style="background: rgba(74, 144, 226, 0.1); padding: 20px; border-radius: 8px; border: 2px solid var(--blue);">
+            <h4 style="color: var(--blue); margin-bottom: 15px;">EVIDENCE-BASED OPTIONS</h4>
+            <div style="margin-bottom: 15px;">
+              <p style="color: var(--yellow); font-weight: bold;">THORNE DIABENIL</p>
+              <ul style="color: var(--white); line-height: 1.6; margin-top: 5px;">
+                <li>Chromium + Cinnamon + Alpha Lipoic Acid</li>
+                <li>Take with largest carb meal</li>
+                <li>Improves insulin sensitivity 15-20%</li>
+              </ul>
+            </div>
+            <div style="margin-bottom: 15px;">
+              <p style="color: var(--yellow); font-weight: bold;">APPLE CIDER VINEGAR</p>
+              <ul style="color: var(--white); line-height: 1.6; margin-top: 5px;">
+                <li>1 tbsp in water before carb meals</li>
+                <li>Reduces glucose spike by 20%</li>
+                <li>Dilute well - protect teeth</li>
+              </ul>
+            </div>
+            <div style="margin-bottom: 15px;">
+              <p style="color: var(--yellow); font-weight: bold;">MAGNESIUM GLYCINATE</p>
+              <ul style="color: var(--white); line-height: 1.6; margin-top: 5px;">
+                <li>400mg before bed</li>
+                <li>Improves insulin sensitivity</li>
+                <li>Better sleep = better glucose control</li>
+              </ul>
+            </div>
+            <div>
+              <p style="color: var(--yellow); font-weight: bold;">VITAMIN D3</p>
+              <ul style="color: var(--white); line-height: 1.6; margin-top: 5px;">
+                <li>5000 IU with breakfast</li>
+                <li>Low D = worse insulin resistance</li>
+                <li>Most athletes deficient</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="info-box">
+        <h3>ELITE STRATEGIES</h3>
+        <div style="display: grid; gap: 10px; margin-top: 15px;">
+          <div style="background: rgba(0,0,0,0.3); padding: 12px; border-radius: 8px; border-left: 3px solid var(--gold);">
+            <strong style="color: var(--gold);">COLD EXPOSURE:</strong>
+            <span style="color: var(--white);"> Cold shower 2 min = improves glucose uptake 15%</span>
+          </div>
+          <div style="background: rgba(0,0,0,0.3); padding: 12px; border-radius: 8px; border-left: 3px solid var(--gold);">
+            <strong style="color: var(--gold);">SLEEP OPTIMIZATION:</strong>
+            <span style="color: var(--white);"> <8 hours = 40% worse insulin sensitivity next day</span>
+          </div>
+          <div style="background: rgba(0,0,0,0.3); padding: 12px; border-radius: 8px; border-left: 3px solid var(--gold);">
+            <strong style="color: var(--gold);">FASTING WINDOW:</strong>
+            <span style="color: var(--white);"> 12-14 hour overnight fast improves sensitivity</span>
+          </div>
+          <div style="background: rgba(0,0,0,0.3); padding: 12px; border-radius: 8px; border-left: 3px solid var(--gold);">
+            <strong style="color: var(--gold);">HYDRATION:</strong>
+            <span style="color: var(--white);"> Dehydration = 20% higher glucose. 100oz/day minimum</span>
+          </div>
+          <div style="background: rgba(0,0,0,0.3); padding: 12px; border-radius: 8px; border-left: 3px solid var(--gold);">
+            <strong style="color: var(--gold);">STRESS CONTROL:</strong>
+            <span style="color: var(--white);"> Cortisol spikes glucose. 4-7-8 breathing before meals</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="warning-box">
+        <h3>THE BOTTOM LINE</h3>
+        <p style="color: var(--white); line-height: 1.8;">
+          With insulin resistance, your body is already struggling to manage glucose. Every red food makes it worse. Every green choice makes it better. 
+          Small changes compound: Protein first + 10 min walk + good sleep = 50% better glucose control = faster fat loss = D1 performance.
+        </p>
+        <p style="color: var(--yellow); font-weight: bold; text-align: center; margin-top: 15px; font-size: 1.1em;">
+          CONTROL YOUR GLUCOSE → CONTROL YOUR FUTURE
+        </p>
+      </div>
+    </div>
+  </div>
   <div class="tab-content" id="social">
     <div class="card">
       <h2 class="card-title">SOCIAL SURVIVAL SCRIPTS</h2>

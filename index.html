@@ -1760,6 +1760,8 @@ function showTab(tabName) {
   buttons.forEach(btn => btn.classList.remove('active'));
   
   event.target.classList.add('active');
+  
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 // Update streak display
